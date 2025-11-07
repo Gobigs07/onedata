@@ -5,9 +5,15 @@ pipeline {
         IMAGE_NAME = "jenkins-node-app"
         CONTAINER_NAME = "jenkins-node-container"
     }
-
+    
     stages {
-        stage('Checkout') {
+        stage('Checkout01') {
+            steps {
+        checkout scm
+            }
+        }
+
+        stage('Checkout02') {
             steps {
                 git 'https://github.com/Gobigs07/onedata.git'
             }
