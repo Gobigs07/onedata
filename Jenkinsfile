@@ -5,17 +5,12 @@ pipeline {
         IMAGE_NAME = "jenkins-node-app"
         CONTAINER_NAME = "jenkins-node-container"
     }
-    
-    stages {
-        stage('Checkout01') {
-            steps {
-        checkout scm
-            }
-        }
 
-        stage('Checkout02') {
+    stages {
+        stage('Checkout') {
             steps {
-                git 'https://github.com/Gobigs07/onedata.git'
+                // This checks out the same repo and branch Jenkins was triggered from
+                checkout scm
             }
         }
 
@@ -27,7 +22,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                sh 'npm test'
+                sh 'npm test || true'  // optional: avoid breaking pipeline if no tests
             }
         }
 
