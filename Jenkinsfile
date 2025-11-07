@@ -1,5 +1,9 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'node:18'   // You can also use node:20 or node:lts
+        }
+    }
 
     environment {
         IMAGE_NAME = "jenkins-node-app"
@@ -9,7 +13,6 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // This checks out the same repo and branch Jenkins was triggered from
                 checkout scm
             }
         }
@@ -22,7 +25,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                sh 'npm test || true'  // optional: avoid breaking pipeline if no tests
+                sh 'npm test || true'
             }
         }
 
