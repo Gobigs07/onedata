@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:18'   // You can also use node:20 or node:lts
-        }
-    }
+    agent none
 
     environment {
         IMAGE_NAME = "jenkins-node-app"
@@ -11,25 +7,22 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
+        stage('Build & Test Node App') {
+            agent {
+                docker {
+                    image 'node:18'
+                    args '-v /var/run/docker.sock:/var/run/docker.sock'
+                }
+            }
             steps {
                 checkout scm
-            }
-        }
-
-        stage('Install Dependencies') {
-            steps {
                 sh 'npm install'
-            }
-        }
-
-        stage('Run Tests') {
-            steps {
                 sh 'npm test || true'
             }
         }
 
         stage('Build Docker Image') {
+            agent any
             steps {
                 script {
                     sh "docker build -t $IMAGE_NAME ."
@@ -38,6 +31,7 @@ pipeline {
         }
 
         stage('Run Docker Container') {
+            agent any
             steps {
                 script {
                     sh '''
