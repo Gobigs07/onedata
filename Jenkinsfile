@@ -4,7 +4,7 @@ pipeline {
     environment {
         IMAGE_NAME = "jenkins-node-app"
         CONTAINER_NAME = "jenkins-node-container"
-        EMAIL_RECIPIENTS = "youremail@gmail.com"
+        EMAIL_RECIPIENTS = "gobinath.v1303@gmail.com"
     }
 
     stages {
